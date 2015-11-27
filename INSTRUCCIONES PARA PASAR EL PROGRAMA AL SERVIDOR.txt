@@ -1,0 +1,1 @@
+$sudo cp -R -v public_html/WSGWAS_Client/ /var/www/html/

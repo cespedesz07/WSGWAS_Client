@@ -1,0 +1,36 @@
+Este es el arreglo que arroja el WSGWAS sin hacer json_encode, es decir, tal y como lo arroja
+[
+	{
+		"SNP0":[
+			{
+				"Tipo":"FrecuenciasAlelicasTodos",
+				"Total":[6,2],
+				"Alelo":["A","G"],
+				"Frec":[0.75,0.25]
+			},
+			{
+				"Tipo":"FrecuenciasAlelicasCasos",
+				"Total":[1,1],
+				"Alelo":["A","G"],
+				"Frec":[0.5,0.5]
+			}
+		]
+	},
+
+	{
+		"SNP1":[
+			{
+				"Tipo":"FrecuenciasAlelicasTodos",
+				"Total":[0,0],
+				"Alelo":["",""],
+				"Frec":[0,0]
+			},
+			{
+				"Tipo":"FrecuenciasAlelicasCasos",
+				"Total":[0,0],
+				"Alelo":["",""],
+				"Frec":[0,0]
+			}
+		]
+	}
+]

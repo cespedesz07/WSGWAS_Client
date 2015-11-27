@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../../favicon.ico">
+
+	<title>Dashboard Template for Bootstrap</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="../../lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->	
+	<link href="../../css/slate_style.css" rel="stylesheet">
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+	<!-- ################################# NAVBAR ################################# -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">WSGWAS Client</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">				
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Procesar SNP</a></li>
+					<li><a href="#">Acerca De</a></li>
+				</ul>
+				<div class="navbar-form navbar-right">
+					<div class="form-group navbar-">
+						<input type="text" class="form-control" placeholder="Buscar SNP..." name="barraBusquedaSNP" style="text-transform:uppercase" disabled>
+					</div>
+					<button type="button" class="btn btn-danger" name="btnBusquedaSNP" disabled>
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- ################################# NAVBAR ################################# -->
+
+
+
+
+	<div class="container-fluid">
+		<div class="row">
+
+			<!-- ############################ SIDEBAR ############################ -->
+			<div class="col-sm-3 sidebar">
+				<div class="well">
+					<!-- <form action="../back/generarPDF.php" method="POST" enctype="multipart/form-data"> -->
+					<form id="formCargaArchivo" method="POST" enctype="multipart/form-data">
+						<h4>Cargar Archivo .ped</h4>
+						<span class="text-muted">Presiona el siguiente botón 
+						para cargar el archivo en formato .ped.</span>
+						<br>
+						<br>
+						<input class="filestyle" data-input="true" data-buttonText="Examinar" type="file" name="archivo" id="archivo">
+						<br>
+						<input class="btn btn-danger btn-md" type="submit" name="btnCargar" id="btnCargar" disabled></input>	
+					</form> 
+				</div>
+
+				<div class="well">
+					<form id="formExportarPDF" method="POST" action="">
+						<h4>Exportar Resultados a PDF</h4>
+						<span class="text-muted">Presiona el siguiente botón 
+						para exportar los resultados a PDF.</span>
+						<br>
+						<br>
+						<input class="btn btn-danger btn-md" type="button" name="btnExportar" id="btnExportar" value="Exportar" disabled></input>
+					</form>		
+				</div>			
+			</div>
+			<!-- ############################ SIDEBAR ############################ -->
+
+
+
+
+
+
+			<div class="col-sm-9 main">
+
+				<!-- Contenedor Para las Alertas -->
+				<div class="alert-container">
+					<div class="alert alert-info" role="alert" id="alerta">
+						<h4>Esperando Carga del Archivo...</h4> 
+					</div>
+				</div>
+
+				
+				<!-- Contenedor para el Acordeon con los SNP -->
+				<div class="accordion-container">	
+
+					<h3 class="sub-header">Listado de SNPs</h3>
+
+					<div class="jumbotron">
+						<h3>No hay archivos cargados</h3>
+					</div>
+
+					
+					
+					<div class="accordion" id="accordionMain">
+					</div>
+					  <!-- cierre panel-group -->
+
+				</div>		<!-- cierre  -->
+
+				
+			</div>
+
+
+
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="../../lib/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+    <script src="../../lib/jquery-1.11.3/jquery-ui.min.js"></script>
+    
+
+    <!-- Bootstrap -->
+    <script src="../../lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap-Filestyle (Libreria para dar estilo al boton de "examinar archivo")
+         http://markusslima.github.io/bootstrap-filestyle/# 
+     -->
+    <script src="../../lib/bootstrap-filestyle-1.2.1/src/bootstrap-filestyle.min.js"></script>
+    
+    </script>
+    <script>
+    	$(document).ready( function(){
+
+
+
+    		//Se agrega estilo al Selector del Archivo con la Libreria
+    		$(":file").filestyle();
+
+
+    		
+
+
+
+    		//Se habilita el Boton de Carga del Archivo cuando se ha cargado un
+    		//archivo con el boton Examinar, y cuando este archivo tiene formato .ped
+    		$("input[name=archivo]").change( function(){
+    			var nombreArchivoPartido = $(this).val().split(".");
+    			//console.log( nombreArchivoPartido );
+    			if ( nombreArchivoPartido[ nombreArchivoPartido.length - 1 ]  ==  "ped" ){
+    				$("input[name=btnCargar]").removeAttr( "disabled" );	
+    			}
+    			else{
+    				$("input[name=btnCargar]").attr( "disabled", true );
+    			}
+    		});
+
+
+
+
+    		
+			$("#formCargaArchivo").submit( function(e){
+				e.preventDefault();
+				formData = new FormData( $(this)[0] );	//Aqui se envia todo el formulario (incluyendo el archivo) al FormData
+				$.ajax({
+					type: 			"POST",
+    				url: 			"../back/controladorPrincipal.php",
+    				dataType: 		"json",	 //Lo que se espera que retorne el servidor
+    				data: 			formData,
+    				cache: 			false,
+    				contentType: 	false,
+    				processData: 	false,
+    				beforeSend: function(){
+    					$("input[name=btnCargar]").attr( "disabled", true );
+    					$(".jumbotron").fadeOut();
+    					$("#accordionMain").fadeOut();
+    					$("#alerta").attr( "class", "alert alert-info" )
+    						.children().html( "Enviando el archivo al servidor..." );
+    					$("input[name=btnExportar]").attr( "disabled", true );
+    					$("input[name=barraBusquedaSNP]")
+    					$("button[name=btnBusquedaSNP]")
+    				},
+    				success: function(response){
+    					var snpJsonArray = JSON.parse( response );
+                                        //console.log( response );
+    					$("input[name=btnCargar]").removeAttr( "disabled" );
+    					$("#alerta").attr("class", "alert alert-success")
+    						.children().html("Archivo Cargado Exitosamente")
+    						
+    					$("input[name=btnExportar]").removeAttr( "disabled" );
+    					$("input[name=barraBusquedaSNP]").removeAttr( "disabled" );
+    					$("button[name=btnBusquedaSNP]").removeAttr( "disabled" );
+    							
+    					//alert( snpJsonArray.length );
+    					//alert( snpJsonArray[0]["SNP0"].length );
+    					//alert( snpJsonArray[0]["SNP0"][0]["Frec"][0] );
+    					//alert( snpJsonArray[0]["SNP0"].length );
+    					
+                                        
+                                        //var snpJsonArray = JSON.parse( response );
+    					var acordeonSNP = generarAcordeonSNP( snpJsonArray );				
+    					$("#accordionMain").fadeIn().html( acordeonSNP );
+                                        
+    				},
+    				error: function( xhr, status, error ){
+    					$("input[name=btnCargar]").removeAttr( "disabled" );
+    					$(".jumbotron").fadeIn();			
+    					$("#accordionMain").fadeOut();
+    					$("#alerta").attr("class", "alert alert-danger")
+    						.children().html( xhr.responseText )
+    						   						
+    					$("input[name=btnExportar]").attr( "disabled", true );
+    					$("input[name=barraBusquedaSNP]").attr( "disabled", true );
+    					$("button[name=btnBusquedaSNP]").attr( "disabled", true );
+    				}
+				});
+			});
+
+			
+			function generarAcordeonSNP( snpJsonArray ){
+				var itemAcordeon = "";
+				for ( var i=0; i<snpJsonArray.length; i++ ){
+
+					//Se configura la cabecera que corresponde al nombre del SNP, el cual será el acordeon
+					//principal
+					var nombreSNP = "SNP" + (i);
+					var nombreCollapse = "collapse" + (i);
+					itemAcordeon += "<div class='accordion' id='accordionSNP" + i + "'><div class='accordion-group'><div class='panel panel-primary'><div class='accordion-heading panel-heading'><h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#accordionSNP" + i + "' href='#" + nombreCollapse + "'>" + nombreSNP + "</a></h4></div></div><div id='"+nombreCollapse+"' class='accordion-body panel panel-heading collapse'><div class='accordion-inner'><div class='accordion' id='accordionCalcSNP"+i+"'>";
+
+					var snpRef = snpJsonArray[i][nombreSNP];
+
+					//Se recorre cada uno de los calculos de los SNPs (FrecAlelicas, FrecGenotipicas, ...)
+					//Para generar otro Acordeon con estas opciones					
+					for ( var j=0; j<snpRef.length; j++ ){
+						var calculoRef = snpRef[j];			//JSONObject
+						var clavesCalculo = Object.keys( calculoRef );						
+						var nombreCalculo = calculoRef["Tipo"];
+						clavesCalculo.splice( clavesCalculo.indexOf("Tipo"), 1 );
+						var valoresCalculo = generarTablaValoresCalculo( clavesCalculo, calculoRef );
+						var innerIndex = i + "" + j;	
+						
+						itemAcordeon += "<div class='accordion-group'><div class='accordion-heading'><a class='accordion-toggle' data-toggle='collapse' data-parent='#accordionCalcSNP"+i+"' href='#collapse"+innerIndex+"' >" + nombreCalculo + "</a></div><div id='collapse"+innerIndex+"' class='accordion-body collapse'><div class='accordion-inner'>" + valoresCalculo + "</div></div></div><br>";				
+						
+					}
+					itemAcordeon += "</div></div></div></div></div>";
+				} 
+				itemAcordeon += "</div></div></div></div>";
+				return itemAcordeon;
+			}
+
+			//Función para generar el subacordeon con los valores de un calculo
+			function generarTablaValoresCalculo( clavesCalculo, calculoRef ){
+				//console.log( clavesCalculo );
+				//console.log( calculoRef );
+
+				var tablaCalculos = "<table>";
+				for ( var i=0; i<calculoRef[ clavesCalculo[0] ].length + 1; i++ ){	//Se recorre el tamaño de los arreglos + 1
+					if ( i == 0 ){
+						tablaCalculos += "<thead>";
+					}	
+					else if ( i == 1 ){
+						tablaCalculos += "<tbody>";
+					}
+
+					tablaCalculos += "<tr>";
+					for ( j=0; j<clavesCalculo.length; j++ ){	//Se recorren todas las claves del calculo del SNP
+						if ( i == 0 ){
+							tablaCalculos += "<td>" +  clavesCalculo[j] + "</td>";	//Se imprimen las claves de los cálculos que corresponden a las cabeceras
+						}
+						else{
+							if ( calculoRef[ clavesCalculo[j] ] != null ){
+							    tablaCalculos += "<td>" +  calculoRef[ clavesCalculo[j] ][i-1] + "</td>";	
+                                                        }
+                                                        else{
+                                                            tablaCalculos += "<td>--NULL--</td>";
+                                                        }
+						}
+					}
+					tablaCalculos += "</tr>";
+					if ( i == 0 ){
+						tablaCalculos += "</thead>";
+					}
+				}
+				tablaCalculos += "</tbody></table>";
+				console.log( tablaCalculos )
+				return tablaCalculos;
+			}  
+
+
+
+			//Al hacer CLick en exportar, se abre una nueva ventana y se redirige al
+			//script generarPDF.php encargado de generar el archivo en php
+			$("input[name=btnExportar]").on( "click", function(){
+				window.open( "../back/generarPDF.php" );
+			});
+
+
+
+			//Funcionalidad para Buscar un SNP dentro de la Página Web
+			$("button[name=btnBusquedaSNP]").click( function(){
+				var snpBusqueda = $("input[name=barraBusquedaSNP]").val().toUpperCase();
+				var acordeonSnpBusqueda = "#" + "accordion" + snpBusqueda;
+				if ( $(acordeonSnpBusqueda).length > 0 ){					
+					var nuevoLink = window.location.origin + window.location.pathname + acordeonSnpBusqueda;
+
+					//Se colorea el acordeon asociado a la Búsqueda de Azul
+					$(acordeonSnpBusqueda).children("div").children("div").attr("class", "panel panel-info");
+
+					//Se captura solamente el númmero del SNP
+					var idCollapse = "#collapse" + snpBusqueda.replace( "SNP", "" );
+					//Se cierra el acordeon, ya que por defecto lo abre
+					$(acordeonSnpBusqueda).children("div").find(idCollapse).attr( "class", "accordion-body panel panel-heading collapse" );
+					window.location = nuevoLink;
+				}
+				else{
+					$("#alerta").attr("class", "alert alert-danger")
+						.children().html( "El Archivo cargado no contiene el: " + snpBusqueda )
+    				window.location = window.location.origin + window.location.pathname + "#alerta";
+				}
+			});
+
+
+
+
+    		
+    	});   	
+    		
+    		
+    </script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
